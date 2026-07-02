@@ -1,0 +1,8 @@
+[tool.pytest.ini_options]
+asyncio_mode = "auto"          # every async test runs automatically — no @pytest.mark.asyncio needed
+testpaths = ["tests"]
+markers = [
+    "unit: fast, no network",
+    "integration: spins up local server",
+    "e2e: hits real target, run manually only",
+]
