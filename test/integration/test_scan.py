@@ -1,6 +1,6 @@
 # tests/integration/test_scan.py
-from diffuzz.engine.http_engine import HttpEngine
-from diffuzz.modules.sqli import SQLiModule
+from engine.http_engine import HttpEngine
+from modules.sqli import SQLiModule
 
 async def test_full_sqli_scan(mock_server):
     engine = HttpEngine(base_url=str(mock_server.make_url("/")))

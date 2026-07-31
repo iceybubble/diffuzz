@@ -1,7 +1,7 @@
 # tests/unit/test_modules.py
 import pytest
 from unittest.mock import AsyncMock, MagicMock
-from diffuzz.modules.sqli import SQLiModule
+from modules.sqli import SQLiModule
 
 @pytest.fixture
 def mock_engine():
