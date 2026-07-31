@@ -2,6 +2,7 @@
 asyncio_mode = "auto"
 testpaths = ["test"]
 python_files = ["test_*.py"]
+pythonpath = ["."]
 markers = [
     "unit: fast, no network",
     "integration: spins up local server",

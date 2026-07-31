@@ -1,7 +1,7 @@
 import pytest
 from pathlib import Path
-from diffuzz.analysis.signature import SignatureDB
-from diffuzz.analysis.differ import Differ
+from analysis.signature import SignatureDB
+from analysis.differ import Differ
 
 RESPONSES = Path(__file__).parent.parent / "fixtures" / "responses"
 
