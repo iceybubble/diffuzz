@@ -1,0 +1,13 @@
+waf_signatures:
+  - name: cloudflare
+    pattern: "Cloudflare|Ray ID:|cf-error-title"
+  - name: generic_waf
+    pattern: "WAF|Web Application Firewall"
+
+vulnerability_signatures:
+  - vuln_type: sqli
+    pattern: "(SQL syntax|mysqli_fetch_assoc|ORA-\\d+|Microsoft OLE DB Provider for SQL Server|PG::SyntaxError|unclosed quotation mark)"
+  - vuln_type: ssti
+    pattern: "Hello,\\s*49"
+  - vuln_type: lfi
+    pattern: "root:x:0:0:"

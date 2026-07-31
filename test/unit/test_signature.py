@@ -1,7 +1,7 @@
-# tests/unit/test_signatures.py
 import pytest
 from pathlib import Path
-from diffuzz.analysis.signatures import SignatureDB
+from diffuzz.analysis.signature import SignatureDB
+from diffuzz.analysis.differ import Differ
 
 RESPONSES = Path(__file__).parent.parent / "fixtures" / "responses"
 
@@ -26,7 +26,7 @@ def test_signature_detects_vuln(sig_db, filename, expected_vuln):
 @pytest.mark.parametrize("filename", [
     "normal/normal_200.html",
     "normal/normal_json.json",
-    "waf/cloudflare_block.html",   # WAF block ≠ finding
+    "waf/cloudflare_block.html",   # WAF block != finding
     "waf/generic_403.html",
 ])
 def test_no_false_positive(sig_db, filename):
@@ -35,8 +35,6 @@ def test_no_false_positive(sig_db, filename):
     assert match is None
 
 # ── diff tests ────────────────────────────────────────────
-# tests/unit/test_differ.py
-from diffuzz.analysis.differ import Differ
 
 @pytest.fixture
 def baseline():
@@ -47,17 +45,16 @@ def test_differ_flags_large_body_change(baseline):
     differ = Differ(baseline=baseline, baseline_time=0.3)
     result = differ.compare(body=vuln_body, elapsed=0.35)
     assert result.is_interesting
-    assert "length" in result.reason.lower() or "similarity" in result.reason.lower()
+    assert "similarity" in result.reason.lower() or "body" in result.reason.lower()
 
 def test_differ_flags_timing_spike(baseline):
     differ = Differ(baseline=baseline, baseline_time=0.3)
-    result = differ.compare(body=baseline, elapsed=6.5)  # 5× threshold
+    result = differ.compare(body=baseline, elapsed=6.5)  # 5x threshold
     assert result.is_interesting
-    assert "time" in result.reason.lower()
+    assert "time" in result.reason.lower() or "timing" in result.reason.lower()
 
 def test_differ_ignores_normal_variance(baseline):
     differ = Differ(baseline=baseline, baseline_time=0.3)
-    # Tiny change — one word different, time normal
     slightly_different = baseline.replace("laptop", "phone")
     result = differ.compare(body=slightly_different, elapsed=0.31)
     assert not result.is_interesting

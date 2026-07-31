@@ -1,0 +1,9 @@
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["test"]
+python_files = ["test_*.py"]
+markers = [
+    "unit: fast, no network",
+    "integration: spins up local server",
+    "e2e: hits real target, run manually only",
+]
